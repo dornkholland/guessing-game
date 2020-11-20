@@ -6,17 +6,21 @@ const rl = readline.createInterface({
 });
 
 let secretNumber = 1;
+let limit = 0;
 
 const checkGuess = (num) => {
     // console.log('here');
     if (num > secretNumber) {
         console.log("Too high.")
+        limit--;
         return false;
     } else if (num < secretNumber) {
         console.log("Too low.")
+        limit--;
         return false;
     } else {
         console.log("Correct!");
+        limit--;
         return true;
     }
 }
@@ -31,6 +35,9 @@ function askGuess() {
         if (guess) {
             console.log('You win!')
             rl.close();
+        } else if (limit === 0) {
+            console.log('you lose lmao');
+            rl.close;
         } else {
             askGuess();
         }
@@ -53,7 +60,16 @@ function askRange() {
     });
 }
 
-askRange();
+// askRange();
+
+function askLimit() {
+    rl.question('How many chances would you like?', answer => {
+        limit = answer;
+        askRange();
+    })
+}
+
+askLimit();
 
 function randomInRange(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
